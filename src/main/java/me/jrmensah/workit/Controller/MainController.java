@@ -208,6 +208,106 @@ public class MainController {
         return "redirect:/";
     }
 
+    @GetMapping("/addclienttoexperiance/{id}")                 //Experiance mapped by client
+    public String addclienttoexperiance(@PathVariable("id") long clientid, Model model)
+    {
+
+        model.addAttribute("client",clientRepository.findOne(new Long(clientid)));
+        model.addAttribute("experiancelist",experianceRepository.findAll());
+        System.out.println("Count for client Repo"+clientRepository.count());
+        return "clientaddexperiance";
+    }
+    @PostMapping("/addclienttoexperiance/{id}")
+    public String addclienttoexperiance(HttpServletRequest request, Model model)
+    {
+        String clientid = request.getParameter("clientid");
+        String experianceid = request.getParameter("experianceid");
+        Client client = clientRepository.findOne(new Long(clientid));
+        System.out.println("client ID:"+ clientid);
+        System.out.println("Experience ID:"+ experianceid);
+        client.addExperiance(experianceRepository.findOne(new Long(experianceid)));
+        clientRepository.save(client);
+        model.addAttribute("experiancelist",experianceRepository.findAll());
+        model.addAttribute("allclients",clientRepository.findAll());
+        return "redirect:/";
+    }
+
+    @GetMapping("/addclienttolocation/{id}")                 //location mapped by client
+    public String addclienttolocation(@PathVariable("id") long clientid, Model model)
+    {
+
+        model.addAttribute("client",clientRepository.findOne(new Long(clientid)));
+        model.addAttribute("locationlist",locationRepository.findAll());
+        System.out.println("Count for client Repo"+clientRepository.count());
+        return "clientaddlocation";
+    }
+    @PostMapping("/addclienttolocation/{id}")
+    public String addclienttolocation(HttpServletRequest request, Model model)
+    {
+        String clientid = request.getParameter("clientid");
+        String locationid = request.getParameter("locationid");
+        Client client = clientRepository.findOne(new Long(clientid));
+        System.out.println("client ID:"+ clientid);
+        System.out.println("Experience ID:"+ locationid);
+        client.addLocation(locationRepository.findOne(new Long(locationid)));
+        clientRepository.save(client);
+        model.addAttribute("locationlist",locationRepository.findAll());
+        model.addAttribute("allclients",clientRepository.findAll());
+        return "redirect:/";
+    }
+    @GetMapping("/addclienttospeciality/{id}")                 //speciality mapped by client
+    public String addclienttospeciality(@PathVariable("id") long clientid, Model model)
+    {
+
+        model.addAttribute("client",clientRepository.findOne(new Long(clientid)));
+        model.addAttribute("specialitylist",specialityRepository.findAll());
+        System.out.println("Count for client Repo"+clientRepository.count());
+        return "clientaddspeciality";
+    }
+    @PostMapping("/addclienttospeciality/{id}")
+    public String addclienttospeciality(HttpServletRequest request, Model model)
+    {
+        String clientid = request.getParameter("clientid");
+        String specialityid = request.getParameter("specialityid");
+        Client client = clientRepository.findOne(new Long(clientid));
+        System.out.println("client ID:"+ clientid);
+        System.out.println("Experience ID:"+ specialityid);
+        client.addSpeciality(specialityRepository.findOne(new Long(specialityid)));
+        clientRepository.save(client);
+        model.addAttribute("specialitylist",specialityRepository.findAll());
+        model.addAttribute("allclients",clientRepository.findAll());
+        return "redirect:/";
+    }
+    @GetMapping("/addclienttoappointment/{id}")                 //appointment mapped by client
+    public String addclienttoappointment(@PathVariable("id") long clientid, Model model)
+    {
+
+        model.addAttribute("client",clientRepository.findOne(new Long(clientid)));
+        model.addAttribute("appointmentlist",appointmentRepository.findAll());
+        System.out.println("Count for client Repo"+clientRepository.count());
+        return "clientaddappointment";
+    }
+    @PostMapping("/addclienttoappointment/{id}")
+    public String addclienttoappointment(HttpServletRequest request, Model model)
+    {
+        String clientid = request.getParameter("clientid");
+        String appointmentid = request.getParameter("appointmentid");
+        Client client = clientRepository.findOne(new Long(clientid));
+        System.out.println("client ID:"+ clientid);
+        System.out.println("Experience ID:"+ appointmentid);
+        client.addAppointment(appointmentRepository.findOne(new Long(appointmentid)));
+        clientRepository.save(client);
+        model.addAttribute("appointmentlist",appointmentRepository.findAll());
+        model.addAttribute("allclients",clientRepository.findAll());
+        return "redirect:/";
+    }
+
+
+
+
+
+
+
     //Adding/ Booking and Appointment
     @GetMapping("/addappointment")
     private String addAppointment(Model model)

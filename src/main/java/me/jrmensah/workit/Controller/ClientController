@@ -1,0 +1,38 @@
+package me.jrmensah.workit.Controller;
+
+import me.jrmensah.workit.Entity.client;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.HttpServletRequest;
+
+public class clientcontroller extends MainController {
+
+    @GetMapping("/addclienttoappointment/{id}")                 //appointment mapped by client
+    public String addclienttoappointment(@PathVariable("id") long clientid, Model model)
+    {
+        
+        model.addAttribute("client",clientRepository.findOne(new Long(clientid)));
+        model.addAttribute("appointmentlist",appointmentRepository.findAll());
+        System.out.println("Count for client Repo"+clientRepository.count());
+        return "clientaddappointment";
+    }
+    @PostMapping("/addclienttoappointment/{id}")
+    public String addclienttoappointment(HttpServletRequest request, Model model)
+    {
+        String clientid = request.getParameter("clientid");
+        String appointmentid = request.getParameter("appointmentid");
+        Client client = clientRepository.findOne(new Long(clientid));
+        System.out.println("client ID:"+ clientid);
+        System.out.println("Experience ID:"+ appointmentid);
+        client.addAppointment(appointmentRepository.findOne(new Long(appointmentid)));
+        clientRepository.save(client);
+        model.addAttribute("appointmentlist",appointmentRepository.findAll());
+        model.addAttribute("allclients",clientRepository.findAll());
+        return "redirect:/";
+    }
+
+
+}
